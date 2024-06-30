@@ -11,12 +11,12 @@ namespace CustomContainers
     public class CustomDictionary<Tkey, Tvalue> : IEnumerable<KeyValuePair<Tkey, Tvalue>>
     {
         private const int DefaultCapacity = 4;
-        private LinkedList<KeyValuePair<Tkey, Tvalue>>[] _buckets;
+        private CustomLinkedList<KeyValuePair<Tkey, Tvalue>>[] _buckets;
         private int _size;
 
         public CustomDictionary()
         {
-            _buckets = new LinkedList<KeyValuePair<Tkey, Tvalue>>[DefaultCapacity];
+            _buckets = new CustomLinkedList<KeyValuePair<Tkey, Tvalue>>[DefaultCapacity];
         }
 
         public int Count => _size;
@@ -41,7 +41,7 @@ namespace CustomContainers
             int bucketIndex = GetBucketIndex(key);
             if (_buckets[bucketIndex] == null)
             {
-                _buckets[bucketIndex] = new LinkedList<KeyValuePair<Tkey, Tvalue>>();
+                _buckets[bucketIndex] = new CustomLinkedList<KeyValuePair<Tkey, Tvalue>>();
             }
             _buckets[bucketIndex].AddLast(new KeyValuePair<Tkey, Tvalue>(key, value));
             _size++;
@@ -50,7 +50,7 @@ namespace CustomContainers
         public bool Remove(Tkey key)
         {
             int bucketIndex = GetBucketIndex(key);
-            LinkedList<KeyValuePair<Tkey, Tvalue>> bucket = _buckets[bucketIndex];
+            CustomLinkedList<KeyValuePair<Tkey, Tvalue>> bucket = _buckets[bucketIndex];
             if (bucket != null)
             {
                 var node = bucket.First;
@@ -71,7 +71,7 @@ namespace CustomContainers
         public bool ContainsKey(Tkey key)
         {
             int bucketIndex = GetBucketIndex(key);
-            LinkedList<KeyValuePair<Tkey, Tvalue>> bucket = _buckets[bucketIndex];
+            CustomLinkedList<KeyValuePair<Tkey, Tvalue>> bucket = _buckets[bucketIndex];
             foreach (var node in bucket)
             {
                 if (node.Key.Equals(key))
@@ -85,7 +85,7 @@ namespace CustomContainers
         public bool TryGetValue(Tkey key, out Tvalue value)
         {
             int bucketIndex = GetBucketIndex(key);
-            LinkedList<KeyValuePair<Tkey, Tvalue>> bucket = _buckets[bucketIndex];
+            CustomLinkedList<KeyValuePair<Tkey, Tvalue>> bucket = _buckets[bucketIndex];
             if (bucket != null)
             {
                 foreach (var node in bucket)
@@ -104,7 +104,8 @@ namespace CustomContainers
         private void Resize()
         {
             int newCapacity = _buckets.Length * 2;
-            LinkedList<KeyValuePair<Tkey, Tvalue>>[] newBuckets = new LinkedList<KeyValuePair<Tkey, Tvalue>>[newCapacity];
+            CustomLinkedList<KeyValuePair<Tkey, Tvalue>>[] newBuckets 
+                = new CustomLinkedList<KeyValuePair<Tkey, Tvalue>>[newCapacity];
 
             foreach (var bucket in _buckets)
             {
@@ -116,7 +117,7 @@ namespace CustomContainers
                         newBucketIndex = Math.Abs(newBucketIndex);
                         if (newBuckets[newBucketIndex] == null)
                         {
-                            newBuckets[newBucketIndex] = new LinkedList<KeyValuePair<Tkey, Tvalue>>();
+                            newBuckets[newBucketIndex] = new CustomLinkedList<KeyValuePair<Tkey, Tvalue>>();
                         }
                         newBuckets[newBucketIndex].AddLast(node);
                     }

@@ -9,7 +9,7 @@ namespace CustomContainers
 {
     public class CustomQueue<T> : IEnumerable<T>
     {
-        private LinkedList<T> _list = new LinkedList<T>();
+        private CustomLinkedList<T> _list = new CustomLinkedList<T>();
         public int Count => _list.Count;
 
         public void Enqueue(T item)

@@ -9,13 +9,13 @@ namespace CustomContainers
 {
     public class CustomHashSet<T> : IEnumerable<T>
     {
-        private LinkedList<T>[] _buckets;
+        private CustomLinkedList<T>[] _buckets;
         private int _size;
         private const int DefaultCapacity = 4;
 
         public CustomHashSet()
         {
-            _buckets = new LinkedList<T>[DefaultCapacity];
+            _buckets = new CustomLinkedList<T>[DefaultCapacity];
         }
         public int Count => _size;
         
@@ -40,7 +40,7 @@ namespace CustomContainers
             int bucketIndex = GetBucketIndex(item);
             if (_buckets[bucketIndex] == null)
             {
-                _buckets[bucketIndex] = new LinkedList<T>();
+                _buckets[bucketIndex] = new CustomLinkedList<T>();
             }
             _buckets[bucketIndex].AddLast(item);
             _size++;
@@ -50,10 +50,10 @@ namespace CustomContainers
         public bool Remove(T item)
         {
             int bucketIndex = GetBucketIndex(item);
-            LinkedList<T> bucket = _buckets[bucketIndex];
+            CustomLinkedList<T> bucket = _buckets[bucketIndex];
             if (bucket != null)
             {
-                LinkedListNode<T> node = bucket.Find(item);
+                CustomLinkedListNode<T> node = bucket.Find(item);
                 if (node != null)
                 {
                     bucket.Remove(node);
@@ -67,7 +67,7 @@ namespace CustomContainers
         public bool Contains(T item)
         {
             int bucketIndex = GetBucketIndex(item);
-            LinkedList<T> bucket = _buckets[bucketIndex];
+            CustomLinkedList<T> bucket = _buckets[bucketIndex];
             if (bucket != null)
             {
                 foreach (T element in bucket)
@@ -84,7 +84,7 @@ namespace CustomContainers
         private void Resize()
         {
             int newCapacity = _buckets.Length * 2;
-            LinkedList<T>[] newBuckets = new LinkedList<T>[newCapacity];
+            CustomLinkedList<T>[] newBuckets = new CustomLinkedList<T>[newCapacity];
 
             foreach (var bucket in _buckets)
             {
@@ -95,7 +95,7 @@ namespace CustomContainers
                         int newBucketIndex = item.GetHashCode() % newCapacity;
                         if (newBuckets[newBucketIndex] == null)
                         {
-                            newBuckets[newBucketIndex] = new LinkedList<T>();
+                            newBuckets[newBucketIndex] = new CustomLinkedList<T>();
                         }
                         newBuckets[newBucketIndex].AddLast(item);
                     }

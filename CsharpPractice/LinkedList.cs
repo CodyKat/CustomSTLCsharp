@@ -81,9 +81,9 @@ namespace CustomContainers
             }
 
             CustomLinkedListNode<T> currentNode = head;
-            while (currentNode != null)
+            while (currentNode.Next != null)
             {
-                if (currentNode.Value.Equals(value))
+                if (currentNode.Next.Value.Equals(value))
                 {
                     currentNode.Next = currentNode.Next.Next;
                     count--;
@@ -116,9 +116,9 @@ namespace CustomContainers
             }
 
             CustomLinkedListNode<T> currentNode = head;
-            while (currentNode != null)
+            while (currentNode.Next != null)
             {
-                if (currentNode.Value.Equals(value.Value))
+                if (currentNode.Next.Value.Equals(value.Value))
                 {
                     currentNode.Next = currentNode.Next.Next;
                     count--;

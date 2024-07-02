@@ -30,7 +30,7 @@ namespace CustomContainers
             root = AddRecursive(root, value);
         }
 
-        private CustomTreeNode<T> AddRecursive(CustomTreeNode<T> node, T value)
+        private CustomTreeNode<T> AddRecursive(CustomTreeNode<T>? node, T value)
         {
             if (node == null)
             {
@@ -57,7 +57,7 @@ namespace CustomContainers
             return removed;
         }
 
-        private CustomTreeNode<T> RemoveRecursive(CustomTreeNode<T> node, T value, out bool removed)
+        private CustomTreeNode<T>? RemoveRecursive(CustomTreeNode<T>? node, T value, out bool removed)
         {
             if (node == null)
             {
@@ -106,7 +106,7 @@ namespace CustomContainers
             return ContainsRecursive(root, value);
         }
 
-        private bool ContainsRecursive(CustomTreeNode<T> node, T value)
+        private bool ContainsRecursive(CustomTreeNode<T>? node, T value)
         {
             if (node == null)
             {
@@ -134,7 +134,7 @@ namespace CustomContainers
             return InOrderTraversal(root).GetEnumerator();
         }
 
-        private IEnumerable<T> InOrderTraversal(CustomTreeNode<T> node)
+        private IEnumerable<T> InOrderTraversal(CustomTreeNode<T>? node)
         {
             if (node != null)
             {

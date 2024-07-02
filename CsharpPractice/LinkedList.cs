@@ -16,10 +16,10 @@ namespace CustomContainers
 
     public class CustomLinkedList<T> : IEnumerable<T>
     {
-        private CustomLinkedListNode<T> head;
-        private CustomLinkedListNode<T> tail;
+        private CustomLinkedListNode<T>? head;
+        private CustomLinkedListNode<T>? tail;
         private int count;
-        public CustomLinkedListNode<T> First => head;
+        public CustomLinkedListNode<T>? First => head;
 
         public CustomLinkedList()
         {

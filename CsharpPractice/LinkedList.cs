@@ -6,11 +6,13 @@ namespace CustomContainers
     {
         public T Value { get; set; }
         public CustomLinkedListNode<T> Next { get; set; }
+        public CustomLinkedListNode<T> Prev { get; set; }
 
         public CustomLinkedListNode(T value)
         {
             Value = value;
             Next = null;
+            Prev = null;
         }
     }
 
@@ -20,6 +22,7 @@ namespace CustomContainers
         private CustomLinkedListNode<T>? tail;
         private int count;
         public CustomLinkedListNode<T>? First => head;
+        public CustomLinkedListNode<T>? Last => tail;
 
         public CustomLinkedList()
         {
@@ -42,6 +45,7 @@ namespace CustomContainers
             else
             {
                 tail.Next = newNode;
+                newNode.Prev = tail;
                 tail = newNode;
             }
             count++;
@@ -58,6 +62,7 @@ namespace CustomContainers
             else
             {
                 newNode.Next = head;
+                head.Prev = newNode;
                 head = newNode;
             }
             count++;
@@ -71,26 +76,23 @@ namespace CustomContainers
             }
             if (head.Value.Equals(value))
             {
-                head = head.Next;
-                count--;
-                if (head == null)
-                {
-                    tail = null;
-                }
-                return true;
+                RemoveFirst();
+            }
+            else if (tail.Value.Equals(value))
+            {
+                RemoveLast();
             }
 
             CustomLinkedListNode<T> currentNode = head;
-            while (currentNode.Next != null)
+            while (currentNode != null)
             {
-                if (currentNode.Next.Value.Equals(value))
+                if (currentNode.Value.Equals(value))
                 {
-                    currentNode.Next = currentNode.Next.Next;
+                    currentNode.Prev.Next = currentNode.Next;
+                    currentNode.Next.Prev = currentNode.Prev.Prev;
+                    currentNode.Next = null;
+                    currentNode.Prev = null;
                     count--;
-                    if (currentNode.Next == null)
-                    {
-                        tail = currentNode;
-                    }
                     return true;
                 }
                 currentNode = currentNode.Next;
@@ -106,26 +108,23 @@ namespace CustomContainers
             }
             if (head.Value.Equals(value.Value))
             {
-                head = head.Next;
-                count--;
-                if (head == null)
-                {
-                    tail = null;
-                }
-                return true;
+                RemoveFirst();
+            }
+            else if (tail.Value.Equals(value.Value))
+            {
+                RemoveLast();
             }
 
             CustomLinkedListNode<T> currentNode = head;
-            while (currentNode.Next != null)
+            while (currentNode != null)
             {
-                if (currentNode.Next.Value.Equals(value.Value))
+                if (currentNode.Value.Equals(value.Value))
                 {
-                    currentNode.Next = currentNode.Next.Next;
+                    currentNode.Prev.Next = currentNode.Next;
+                    currentNode.Next.Prev = currentNode.Prev.Prev;
+                    currentNode.Next = null;
+                    currentNode.Prev = null;
                     count--;
-                    if (currentNode.Next == null)
-                    {
-                        tail = currentNode;
-                    }
                     return true;
                 }
                 currentNode = currentNode.Next;
@@ -140,7 +139,11 @@ namespace CustomContainers
                 return false;
             }
             head = head.Next;
-            if (head == null)
+            if (head != null)
+            {
+                head.Prev = null;
+            }
+            else
             {
                 tail = null;
             }
@@ -154,18 +157,15 @@ namespace CustomContainers
             {
                 return false;
             }
-            CustomLinkedListNode<T> currentNode = head;
-            if (currentNode.Next == null)
+            tail = tail.Prev;
+            if (tail != null)
             {
-                RemoveFirst();
-                return true;
+                tail.Next = null;
             }
-            while (currentNode.Next.Next != null)
+            else
             {
-                currentNode = currentNode.Next;
+                head = null;
             }
-            currentNode.Next = null;
-            tail = currentNode;
             count--;
             return true;
         }

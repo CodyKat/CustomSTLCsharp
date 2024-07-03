@@ -177,7 +177,7 @@ namespace CustomContainers
             count = 0;
         }
 
-        public CustomLinkedListNode<T> Find(T value)
+        public CustomLinkedListNode<T>? Find(T value)
         {
             CustomLinkedListNode<T> currentNode = head;
             while (currentNode != null)
@@ -187,6 +187,20 @@ namespace CustomContainers
                     return currentNode;
                 }
                 currentNode = currentNode.Next;
+            }
+            return null;
+        }
+
+        public CustomLinkedListNode<T>? FindLast(T value)
+        {
+            CustomLinkedListNode<T> currentNode = tail;
+            while (currentNode != null)
+            {
+                if (currentNode.Value.Equals(value))
+                {
+                    return currentNode;
+                }
+                currentNode = currentNode.Prev;
             }
             return null;
         }

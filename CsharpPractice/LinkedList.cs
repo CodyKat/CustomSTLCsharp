@@ -33,6 +33,23 @@ namespace CustomContainers
 
         public int Count => count;
 
+        public void AddFirst(T value)
+        {
+            CustomLinkedListNode<T> newNode = new CustomLinkedListNode<T>(value);
+            if (head == null)
+            {
+                head = newNode;
+                tail = newNode;
+            }
+            else
+            {
+                newNode.Next = head;
+                head.Prev = newNode;
+                head = newNode;
+            }
+            count++;
+        }
+
         public void AddLast(T value)
         {
             CustomLinkedListNode<T> newNode = new CustomLinkedListNode<T>(value);
@@ -51,21 +68,51 @@ namespace CustomContainers
             count++;
         }
 
-        public void AddFirst(T value)
+        public bool AddBefore(CustomLinkedListNode<T> node, T value)
         {
-            CustomLinkedListNode<T> newNode = new CustomLinkedListNode<T>(value);
-            if (head == null)
+            CustomLinkedListNode<T>? findNode = Find(node);
+            if (findNode == null)
             {
-                head = newNode;
-                tail = newNode;
+                return false;
+            }
+            
+            if (findNode == head)
+            {
+                AddFirst(value);
             }
             else
             {
-                newNode.Next = head;
-                head.Prev = newNode;
-                head = newNode;
+                CustomLinkedListNode<T> newNode = new CustomLinkedListNode<T>(value);
+                newNode.Next = findNode;
+                newNode.Prev = findNode.Prev;
+                newNode.Prev.Next = newNode;
+                findNode.Prev = newNode;
+
             }
-            count++;
+            return true;
+        }
+
+        public bool AddAfter(CustomLinkedListNode<T> node, T value)
+        {
+            CustomLinkedListNode<T>? findNode = Find(node);
+            if (findNode == null)
+            {
+                return false;
+            }
+
+            if (findNode == tail)
+            {
+                AddLast(value);
+            }
+            else
+            {
+                CustomLinkedListNode<T> newNode = new CustomLinkedListNode<T>(value);
+                newNode.Next = findNode.Next;
+                newNode.Prev = findNode;
+                findNode.Next = newNode;
+                newNode.Next.Prev = newNode;
+            }
+            return true;
         }
 
         public bool Remove(T value)
@@ -183,6 +230,20 @@ namespace CustomContainers
             while (currentNode != null)
             {
                 if (currentNode.Value.Equals(value))
+                {
+                    return currentNode;
+                }
+                currentNode = currentNode.Next;
+            }
+            return null;
+        }
+
+        public CustomLinkedListNode<T>? Find(CustomLinkedListNode<T> value)
+        {
+            CustomLinkedListNode<T> currentNode = head;
+            while (currentNode != null)
+            {
+                if (currentNode.Equals(value))
                 {
                     return currentNode;
                 }
